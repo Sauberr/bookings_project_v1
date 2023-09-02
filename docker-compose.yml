@@ -1,0 +1,89 @@
+# docker compose build - use this command if we changed something in the Dockerfile
+# docker compose up - if only docker-compose was changed
+
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    container_name: booking_db
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    env_file:  # File with environment variables (Instead of environment)
+      - .env-non-dev
+    ports:
+      - 5432:5432 # The port is needed only if we need to access the container directly
+
+  redis:
+    image: redis:7
+    container_name: booking_redis
+
+  booking:
+    image: booking_app
+    build:
+      context: .
+    container_name: booking_app
+    env_file:
+      - .env-non-dev
+    depends_on: # Run only after starting the database and Redis (depends on = depends on)
+      - db
+      - redis
+    # If this command does not work, use the commented
+    command: ["/booking/docker/app.sh"]
+    # command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
+    ports:
+      - 7777:8000
+
+  celery:
+    image: booking_celery
+    build:
+      context: . # celery is a library, it does not have an image, we take it from the main build
+    container_name: booking_celery
+    # Если не работает эта команда, используйте закомментированную
+    command: ["/booking/docker/celery.sh", "celery"] # Second argument for if/elif in script
+    # command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO"
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - redis
+
+  flower:
+    image: booking_flower
+    build:
+      context: . # flower is a library, it does not have an image, we take it from the main build
+    container_name: booking_flower
+    # If this command does not work, use the commented
+    command: ["/booking/docker/celery.sh", "flower"]
+    # command: sh -c "celery --app=app.tasks.celery:celery flower"
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - redis
+    ports:
+      - 5555:5555
+
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana:9.4.7
+    container_name: grafana
+    volumes:
+      - grafanadata:/var/lib/grafana
+    restart: unless-stopped
+    ports:
+      - 4000:3000
+
+volumes:
+  postgresdata:
+  grafanadata:
+  prometheusdata:
+
+
+

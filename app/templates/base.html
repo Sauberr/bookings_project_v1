@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="{{ url_for('static', path='images/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/navbar.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        async function logoutUser() {
+            const url = "http://localhost:8000/api/v1/auth/logout";
+
+            await fetch(url, {
+                method: 'POST',
+            }).then(response => {
+                if (response.status === 200) {
+                    window.location.href = "/pages/login"
+                }
+            });
+        }
+    </script>
+    {% block head %}{% endblock %}
+    <title>Bookings</title>
+</head>
+<body>
+<nav class="mb-10">
+    <div class="flex justify-between px-8 py-3 text-2xl">
+      <ul>
+        <!-- Да, тут захардкожены значения. Я знаю :D -->
+        <li><a href="/pages/hotels/Алтай?date_to=2024-05-01&date_from=2024-04-17">🏩 Bookings</a></li>
+      </ul>
+      <ul class="flex gap-x-5">
+        <li><a href="/pages/bookings">My bookings</a></li>
+        <li>
+            <button onclick="logoutUser()">Exit</button>
+        </li>
+      </ul>
+    </div>
+    <hr/>
+</nav>
+{% block content %}{% endblock %}
+</body>
+</html>

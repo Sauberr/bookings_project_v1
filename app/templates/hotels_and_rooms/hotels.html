@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const searchForOperation = () => {
+        const searchInputValue = document.getElementById("operation_search").value;
+        const dateFromSelectValue = document.getElementById("date_from").value;
+        const dateToSelectValue = document.getElementById("date_to").value;
+        window.location.href = `/pages/hotels/${searchInputValue}?date_from=${dateFromSelectValue}&date_to=${dateToSelectValue}`;
+    }
+
+    const exploreHotelRooms = (hotel_id) => {
+        const dateFromSelectValue = document.getElementById("date_from").value;
+        const dateToSelectValue = document.getElementById("date_to").value;
+        window.location.href = `/pages/hotels/${hotel_id}/rooms?date_from=${dateFromSelectValue}&date_to=${dateToSelectValue}`;
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="flex justify-center items-center mb-10">
+        <div class="border-2 border-yellow-400 rounded-3xl w-1/4 text-lg px-3 py-1 mr-2">
+            <input id="operation_search" size="34" type="text" value="{{ location }}"
+                   placeholder="Введите место, которое хотели бы посетить...">
+        </div>
+        <span>С</span>
+        <select id="date_from" class="p-2 mx-2">
+            {% for date in dates %}
+                <option value="{{ date['date'] }}" {{ 'selected' if date['date_formatted'] == date_from }}>
+                    {{ date["date_formatted"] }}
+                </option>
+            {% endfor %}
+        </select>
+        <span>По</span>
+        <select id="date_to" class="p-2 mx-2">
+            {% for date in dates %}
+                <option value="{{ date['date'] }}" {{ 'selected' if date['date_formatted'] == date_to or date == dates[-1] }}>
+                    {{ date["date_formatted"] }}
+                </option>
+            {% endfor %}
+        </select>
+        <button onclick="searchForOperation()"
+                class="text-xl bg-yellow-400 px-3 py-1 rounded-3xl">Search</button>
+    </div>
+    {% if hotels %}
+        <div class="flex flex-col items-center">
+            {% for hotel in hotels %}
+                <div class="flex shadow-md mb-5 w-fit pr-4 items-center">
+                    <img src="{{ url_for('static', path='images/' + hotel.image_id|string + '.webp') }}" alt="Отель" width="300">
+                    <div class="px-4 py-3">
+                        <div class="pl-1 font-bold">{{ hotel.name }}</div>
+                        <hr class="my-2">
+                        <div class="mb-2 pl-1 max-w-xs">{{ hotel.description }}</div>
+                        <div class="mb-2">📍{{ hotel.location }}</div>
+                        <div class="mb-2 pl-1">{{ " · ".join(hotel.services) }}</div>
+                        <div class="pl-1">Remaining rooms: {{ hotel.rooms_left }} из {{hotel.rooms_quantity}}</div>
+                    </div>
+                    <div class="flex justify-top flex-col items-center py-3">
+                        <!-- <div>
+                            от
+                            <span class="font-bold text-3xl">25 999</span>
+                        </div> -->
+                        <!-- <span class="mb-5">за 12 ночей</span> -->
+                        <button onclick="exploreHotelRooms('{{ hotel.id }}')"
+                                class="text-lg bg-yellow-400 px-3 py-1 rounded-3xl">
+                            Choose room
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

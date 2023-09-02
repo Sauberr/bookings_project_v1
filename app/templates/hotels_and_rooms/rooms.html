@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script>
+        async function loginUser() {
+            const url = "http://localhost:8000/api/v1/bookings";
+            const bookingId = document.getElementById("bookingId").value;
+
+            await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({email: email, password: password}),
+            }).then(response => {
+                if (response.status === 200) {
+                    window.location.href = "/pages/bookings"
+                } else {
+                    wrongCredentialsSpan.textContent = "Wrong email or password";
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="flex justify-center mb-10 text-3xl">
+        Выбор номера в&nbsp;<span class="font-bold">{{ hotel.name }}</span>
+    </div>
+    {% if rooms %}
+        <div class="flex flex-col items-center">
+            {% for room in rooms %}
+                <div class="flex shadow-md mb-5 pr-4 items-center">
+                    <img src="{{ url_for('static', path='images/' + room.image_id|string + '.webp') }}" alt="Номер" width="300">
+                    <div class="flex items-center">
+                        <div class="px-4 py-3 w-[25rem]">
+                            <div class="pl-1 font-bold">{{ room.name }}</div>
+                            <hr class="my-2">
+                            {% if room.description %}
+                                <div class="mb-2 pl-1">{{ room.description }}</div>
+                            {% endif %}
+                            <div class="pl-1 mb-2">{{ " · ".join(room.services) }}</div>
+                            <span class="pl-1 mb-2">Remaining rooms:&nbsp;{{ room.rooms_left }} из {{ room.quantity }}</span>
+                        </div>
+                        <div class="flex justify-top flex-col items-center">
+                            <!-- Total cost would be nice to format 12345 -> 12345 -->
+                            <span class="font-bold text-4xl">{{ room.total_cost }}</span>
+                            <span class="mb-1 text-xl">за {{ booking_length }} nights</span>
+                            <span class="mb-2">{{ room.price }} for night</span>
+                            <!-- Hidden POST form. I had to create game in the absence of JS :D -->
+                            <form action="/pages/successful_booking" method="POST">
+                                <div class="flex flex-col items-center">
+                                    <span>С {{ date_from_formatted }}</span>
+                                    <span class="mb-5">По {{ date_to_formatted }}</span>
+                                    <input name="date_from" type="hidden"
+                                        type="text" value="{{ date_from }}" readonly="readonly">
+                                    <input name="date_to" type="hidden"
+                                    type="text" value="{{ date_to }}" readonly="readonly">
+                                    <input name="room_id" type="hidden"
+                                        value="{{ room.id }}" readonly="readonly">
+                                    <button type="submit"
+                                            class="text-lg bg-yellow-400 px-3 py-1 rounded-3xl mb-3">
+                                        Book
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

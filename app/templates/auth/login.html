@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script>
+        async function loginUser() {
+            const wrongCredentialsSpan = document.getElementById("wrong_credentials");
+            wrongCredentialsSpan.textContent = "";
+
+            const url = "http://localhost:8000/api/v1/auth/login";
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({email: email, password: password}),
+            }).then(response => {
+                if (response.status === 200) {
+                    window.location.href = "/pages/bookings"
+                } else {
+                    wrongCredentialsSpan.textContent = "Wrong email or password";
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col items-center justify-center h-screen">
+        <span class="font-bold text-3xl mb-10">🏩 Bookings</span>
+        <div>
+            <div class="flex flex-col items-start text-xl mb-5">
+                <label for="email" class="mb-1">Email</label>
+                <input class="border-b-2 border-yellow-400 mb-4" id="email" name="email" type="text" value="" placeholder="artem@mail.ru">
+
+                <label for="password" class="mb-1">Password</label>
+                <input class="border-b-2 border-yellow-400" id="password" name="password" type="password" value="" placeholder="********">
+                <span id="wrong_credentials" class="text-sm text-red-400"></span>
+            </div>
+        </div>
+        <button onclick="loginUser()" class="text-xl bg-yellow-400 px-3 py-2 rounded-3xl mb-3">Logout</button>
+        <span>
+            Not registered?
+            <a href="/pages/register"
+               class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
+                Registration
+            </a>
+        </span>
+    </div>
+{% endblock %}
