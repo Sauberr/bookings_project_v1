@@ -1,6 +1,7 @@
 from datetime import date
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
+from fastapi_versioning import version
 from pydantic import parse_obj_as
 
 from app.bookings.dao import BookingDAO
@@ -9,7 +10,7 @@ from app.exceptions import RoomCannotBeBooked
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
-from fastapi_versioning import version
+
 # from fastapi import BackgroundTasks
 
 

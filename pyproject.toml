@@ -33,6 +33,7 @@ sentry-sdk = {extras = ["fastapi"], version = "^1.29.2"}
 fastapi-versioning = "^0.10.0"
 gunicorn = "^21.2.0"
 prometheus-fastapi-instrumentator = "^6.1.0"
+ruff = "^0.0.287"
 
 [build-system]
 requires = ["poetry-core"]
@@ -57,3 +58,8 @@ imports = ["sqlalchemy", "app"]
 
 [tool.pyright]
 include = ["app"]
+
+[tool.ruff]
+line-length = 88
+ignore = ['E501']
+

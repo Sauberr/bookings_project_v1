@@ -1,10 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 
-from app.exceptions import (CannotAddDataToDatabase,
-                            IncorrectEmailOrPasswordException,
-                            UserAlreadyExistsException)
-from app.users.auth import (authenticate_user, create_access_token,
-                            get_password_hash)
+from app.exceptions import IncorrectEmailOrPasswordException, UserAlreadyExistsException
+from app.users.auth import authenticate_user, create_access_token, get_password_hash
 from app.users.dao import UserDAO
 from app.users.dependencies import get_current_admin_user, get_current_user
 from app.users.models import Users

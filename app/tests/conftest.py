@@ -3,7 +3,6 @@ import json
 from datetime import datetime
 
 import pytest
-from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from sqlalchemy import insert
 
