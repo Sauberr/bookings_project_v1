@@ -38,9 +38,9 @@ async def get_hotels_page(
     dates = get_month_days()
     if date_from > date_to:
         date_to, date_from = date_from, date_to
-    # Автоматически ставим дату заезда позже текущей даты
+    # Automatically set the check-in date later than the current date
     date_from = max(datetime.today().date(), date_from)
-    # Автоматически ставим дату выезда не позже, чем через 180 дней
+    # Automatically set check-out no later than 180 days
     date_to = min((datetime.today() + timedelta(days=180)).date(), date_to)
     return templates.TemplateResponse(
         "hotels_and_rooms/hotels.html",

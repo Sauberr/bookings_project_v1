@@ -2,7 +2,7 @@ from datetime import date
 
 from fastapi import APIRouter, Depends
 from fastapi_versioning import version
-from pydantic import parse_obj_as
+from pydantic import TypeAdapter
 
 from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBooking
@@ -37,7 +37,8 @@ async def add_booking(
     booking = await BookingDAO.add(user.id, room_id, date_from, date_to)
     if not booking:
         raise RoomCannotBeBooked
-    booking_dict = parse_obj_as(SBooking, booking).dict()
+    booking_obj = TypeAdapter(SBooking)
+    booking_dict = booking_obj.validate_python(booking).model_dump()
     # With celery
     send_booking_confirmation_email.delay(booking_dict, user.email)
     # With background_tasks
