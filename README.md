@@ -1,6 +1,7 @@
-# Bookings Project Version 1
+# Hotel booking
+This is a repository for a Python backend development course with a focus on learning FastAPI and working with SQLAlchemy, Celery, Redis, Docker, and many other libraries and technologies.
 
-The project for study FastApi.
+This is a repository for the "With support" and "Personal" tariffs, which assumes the presence of my solutions to practical problems and with comments on the code.
 
 #### Stack:
 
@@ -27,11 +28,6 @@ All actions should be executed from the source directory of the project and only
    pip install --upgrade pip
    pip install -r requirements.txt
    ```
-
-# Hotel booking
-This is a repository for a Python backend development course with a focus on learning FastAPI and working with SQLAlchemy, Celery, Redis, Docker, and many other libraries and technologies.
-
-This is a repository for the "With support" and "Personal" tariffs, which assumes the presence of my solutions to practical problems and with comments on the code.
 
 ## Run application
 The uvicorn web server is used to run FastAPI. The command to run looks like this:
