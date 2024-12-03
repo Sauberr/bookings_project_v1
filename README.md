@@ -1,7 +1,5 @@
-# Hotel booking
-This is a repository for a Python backend development course with a focus on learning FastAPI and working with SQLAlchemy, Celery, Redis, Docker, and many other libraries and technologies.
-
-This is a repository for the "With support" and "Personal" tariffs, which assumes the presence of my solutions to practical problems and with comments on the code.
+# Hotel Booking
+This is a project for a Python backend development course with a focus on learning FastAPI and working with SQLAlchemy, Celery, Redis, Docker, and many other libraries and technologies.
 
 #### Stack:
 
