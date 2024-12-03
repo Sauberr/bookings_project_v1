@@ -45,7 +45,7 @@ Note that `-P solo` is only used on Windows, as Celery has problems working on W
 To start Flower use the command
 ```
 celery --app=app.tasks.celery:celery flower
-```
+
 
 ### Dockerfile
 To run a web server (FastAPI) inside a container, you need to uncomment the code inside the Dockerfile and have an already running PostgreSQL instance on your machine.
