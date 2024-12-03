@@ -1,5 +1,5 @@
 # Hotel Booking
-This is a project for a Python backend development course with a focus on learning FastAPI and working with SQLAlchemy, Celery, Redis, Docker, and many other libraries and technologies.
+This hotel booking application demonstrates the power of FastAPI and SQLAlchemy for building RESTful APIs. It incorporates Celery for asynchronous tasks, Redis for caching, and Docker for containerization, showcasing a modern approach to backend development.
 
 #### Stack:
 
