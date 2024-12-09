@@ -1,5 +1,5 @@
 # Hotel Booking
-This hotel booking application demonstrates the power of FastAPI and SQLAlchemy for building RESTful APIs. It incorporates Celery for asynchronous tasks, Redis for caching, and Docker for containerization, showcasing a modern approach to backend development.
+This hotel booking application demonstrates the power of FastAPI and SQLAlchemy for building RESTful APIs. It incorporates Celery for asynchronous tasks, Redis for caching, Prometheus and Grafana for data monitoring and visualization  and Docker for containerization, showcasing a modern approach to backend development.
 
 #### Stack:
 
