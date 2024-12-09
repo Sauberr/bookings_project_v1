@@ -3,7 +3,7 @@ This hotel booking application demonstrates the power of FastAPI and SQLAlchemy 
 
 #### Stack:
 
-- [Python](https://www.python.org/downloads/)
+- `[Python](https://www.python.org/downloads/)`
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
 - [Celery](https://docs.celeryq.dev/en/stable/)
