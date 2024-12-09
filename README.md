@@ -61,3 +61,7 @@ docker compose build
 docker compose up
 ```
 Moreover, the `build` command needs to be run only if you changed something inside the Dockerfile, that is, you changed the logic for compiling the image.
+
+## License
+
+This project uses the [MIT] license(https://github.com/Sauberr/bookings-project/blob/master/LICENSE)
